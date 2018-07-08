@@ -12,8 +12,7 @@
     "sqlServerNameTidy": "[toLower(trim(parameters('sqlServerName')))]",
 
     "coreSqlDatabaseNameTidy": "[toLower(trim(parameters('coreSqlDatabaseName')))]",
-    "webSqlDatabaseNameTidy": "[toLower(trim(parameters('webSqlDatabaseName')))]",
-    "web2SqlDatabaseNameTidy": "[toLower(trim(parameters('web2SqlDatabaseName')))]",
+    "webSqlDatabaseNameTidy": "[toLower(trim(parameters('webSqlDatabaseName')))]",    
     "masterSqlDatabaseNameTidy": "[toLower(trim(parameters('masterSqlDatabaseName')))]",
     "reportingSqlDatabaseNameTidy": "[toLower(trim(parameters('reportingSqlDatabaseName')))]",
     "poolsSqlDatabaseNameTidy": "[toLower(trim(parameters('poolsSqlDatabaseName')))]",
@@ -36,8 +35,7 @@
       "single": "single",
       "core": "core",
       "master": "master",
-      "web": "web",
-      "web2": "web2",
+      "web": "web",      
       "reporting": "reporting",
       "pools": "prc-pools",
       "tasks": "prc-tasks",
@@ -115,12 +113,7 @@
       "type": "string",
       "minLength": 1,
       "defaultValue": "[concat(parameters('deploymentId'), '-web-db')]"
-    },
-    "web2SqlDatabaseName": {
-      "type": "string",
-      "minLength": 1,
-      "defaultValue": "[concat(parameters('deploymentId'), '-web2-db')]"
-    },
+    },    
     "reportingSqlDatabaseName": {
       "type": "string",
       "minLength": 1,
@@ -385,37 +378,7 @@
             "provider": "[variables('sitecoreTags').provider]",
             "logicalName": "[variables('sitecoreTags').web]"
           }
-        },
-        {
-          "type": "databases",
-          "apiVersion": "[variables('dbApiVersion')]",
-          "properties": {
-            "edition": "[parameters('sqlDatabaseEdition')]",
-            "collation": "[parameters('sqlDatabaseCollation')]",
-            "maxSizeBytes": "[parameters('sqlDatabaseMaxSize')]",
-            "requestedServiceObjectiveName": "[parameters('sqlDatabaseServiceObjectiveLevel')]"
-          },
-          "resources": [
-            {
-              "name": "current",
-              "type": "transparentDataEncryption",
-              "dependsOn": [
-                "[variables('web2SqlDatabaseNameTidy')]"
-              ],
-              "apiVersion": "2014-04-01",
-              "properties": {
-                "status": "Enabled"
-              }
-            }
-          ],
-          "name": "[variables('web2SqlDatabaseNameTidy')]",
-          "location": "[parameters('location')]",
-          "dependsOn": [ "[resourceId('Microsoft.Sql/servers', variables('sqlServerNameTidy'))]" ],
-          "tags": {
-            "provider": "[variables('sitecoreTags').provider]",
-            "logicalName": "[variables('sitecoreTags').web]"
-          }
-        },
+        },        
         {
           "type": "databases",
           "apiVersion": "[variables('dbApiVersion')]",
